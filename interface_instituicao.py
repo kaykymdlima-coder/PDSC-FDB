@@ -1,6 +1,6 @@
 import pandas as pd
 import panel as pn
-from crud_instituicao import (
+from instituicao import (
     listar_instituicoes,
     adicionar_instituicao,
     editar_instituicao,

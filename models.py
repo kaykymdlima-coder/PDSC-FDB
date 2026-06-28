@@ -1,15 +1,15 @@
 from datetime import date
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column, relationship
-from sqlalchemy import Column, String, Date, Integer, ForeignKey
+from sqlalchemy import Column, String, Date, Integer, ForeignKey, Numeric
 
 Base = declarative_base()
 
 class UsuarioPessoa(Base):
     __tablename__ = 'usuariopessoa'
     
+    cpf = Column(String(14), primary_key=True, nullable=False)
     nome_completo = Column(String(150), nullable=False)
     data_nascimento = Column(Date, nullable=False)
-    cpf = Column(String(14), primary_key=True, nullable=False)
     email = Column(String(100), nullable=False, unique=True)
     senha = Column(String(64), nullable=False)
     sexo = Column(String(20), nullable=False)
@@ -22,30 +22,41 @@ class UsuarioPessoa(Base):
 
 class Instituicao(Base):
     __tablename__ = "instituicao"
-    id_instituicao: Mapped[int] = mapped_column(Integer, primary_key=True)
-    cnpj: Mapped[str] = mapped_column(String(18), unique=True)
-    nome: Mapped[str] = mapped_column(String(150))
-    registro_cnes: Mapped[str] = mapped_column(String(50), unique=True)
-    telefone_institucional: Mapped[str] = mapped_column(String(20), unique=True)
-    email_institucional: Mapped[str] = mapped_column(String(100), unique=True)
-    senha: Mapped[str] = mapped_column(String(64))
-    cep: Mapped[str] = mapped_column(String(10))
-    logradouro: Mapped[str] = mapped_column(String(150))
-    cidade: Mapped[str] = mapped_column(String(100))
-    bairro: Mapped[str] = mapped_column(String(100))
-    
-    campanhas: Mapped[list["Campanha"]] = relationship(back_populates="instituicao")
-
+    id_instituicao = Column(Integer, primary_key=True, nullable=False)
+    cnpj = Column(String(18), nullable=False, unique=True)
+    nome = Column(String(150), nullable=False)
+    registro_cnes = Column(String(50), nullable=False, unique=True)
+    telefone_institucional = Column(String(20), nullable=False, unique=True)
+    email_institucional = Column(String(100), nullable=False, unique=True)
+    senha = Column(String(64), nullable=False)
+    cep = Column(String(10), nullable=False)
+    logradouro = Column(String(150), nullable=False)
+    cidade = Column(String(100), nullable=False)
+    bairro = Column(String(100), nullable=False)
 
 class Campanha(Base):
     __tablename__ = "campanhas"
-    id_campanha: Mapped[int] = mapped_column(Integer, primary_key=True)
-    nome: Mapped[str] = mapped_column(String(150))
-    regiao: Mapped[str] = mapped_column(String(100))
-    data_inicio: Mapped[date] = mapped_column(Date)
-    data_fim: Mapped[date] = mapped_column(Date)
-    status: Mapped[str] = mapped_column(String(50))
-    redes_sociais: Mapped[str | None] = mapped_column(String(150), nullable=True)
-    id_instituicao: Mapped[int] = mapped_column(ForeignKey("instituicao.id_instituicao"))
+    id_campanha = Column(Integer, primary_key=True, nullable=False)
+    nome = Column(String(150), nullable=False)
+    regiao = Column(String(100), nullable=False)
+    data_inicio = Column(Date, nullable=False)
+    data_fim = Column(Date, nullable=False)
+    status = Column(String(50), nullable=False)
+    redes_sociais = Column(String(150), nullable=True)
+    id_instituicao = Column(Integer, ForeignKey("instituicao.id_instituicao"), nullable=False)
 
-    instituicao: Mapped["Instituicao"] = relationship(back_populates="campanhas")
+# --- NOVAS ENTIDADES DERIVADAS DE PESSOA ---
+
+class UsuarioDoador(Base):
+    __tablename__ = 'usuariodoador'
+    id_doador = Column(Integer, primary_key=True, nullable=False)
+    cpf = Column(String(14), ForeignKey('usuariopessoa.cpf'), primary_key=True, nullable=False)
+    pontuacao = Column(Integer, nullable=False, default=0)
+    id_campanha = Column(Integer, ForeignKey('campanhas.id_campanha'), nullable=False)
+
+class UsuarioPaciente(Base):
+    __tablename__ = 'usuariopaciente'
+    id_paciente = Column(Integer, primary_key=True, nullable=False)
+    cpf = Column(String(14), ForeignKey('usuariopessoa.cpf'), primary_key=True, nullable=False)
+    data_entrada_fila = Column(Date, nullable=False)
+    id_instituicao = Column(Integer, ForeignKey('instituicao.id_instituicao'), nullable=False)

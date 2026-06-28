@@ -1,4 +1,4 @@
-from banco import Session
+from conexao import Session
 from models import UsuarioPessoa
 
 

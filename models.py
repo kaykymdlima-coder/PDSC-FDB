@@ -6,7 +6,7 @@ class Base(DeclarativeBase):
 
 
 class UsuarioPessoa(Base):
-    tablename = "usuariopessoa"
+    _tablename_ = "usuariopessoa"
 
     cpf: Mapped[str] = mapped_column(String(14), primary_key=True)
     nome_completo: Mapped[str] = mapped_column(String(150))

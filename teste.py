@@ -1,29 +1,6 @@
-import psycopg2
+from crud import listar_usuarios
 
-try:
-    conexao = psycopg2.connect(
-        host="localhost",
-        database="PDSC",
-        user="postgres",
-        password="raisondettre",
-        port="5432"
-    )
+usuarios = listar_usuarios()
 
-    print("Conectado com sucesso!")
-
-    cursor = conexao.cursor()
-
-    cursor.execute("""
-        SELECT nome_completo, cpf, email
-        FROM usuariopessoa;
-    """)
-
-    pessoas = cursor.fetchall()
-
-    print(pessoas)
-
-    cursor.close()
-    conexao.close()
-
-except Exception as erro:
-    print("Erro:", erro)
+for usuario in usuarios:
+    print(usuario.nome_completo)

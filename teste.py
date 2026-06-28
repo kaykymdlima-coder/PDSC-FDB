@@ -1,6 +1,8 @@
-from crud import listar_usuarios
+import panel as pn
 
-usuarios = listar_usuarios()
+pn.extension()
 
-for usuario in usuarios:
-    print(usuario.nome_completo)
+pn.Column(
+    "# Funcionou!",
+    pn.widgets.Button(name="Teste")
+).show()

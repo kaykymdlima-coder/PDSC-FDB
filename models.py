@@ -36,3 +36,20 @@ class Instituicao(Base):
     logradouro: Mapped[str] = mapped_column(String(150))
     cidade: Mapped[str] = mapped_column(String(100))
     bairro: Mapped[str] = mapped_column(String(100))
+
+
+    campanhas: Mapped[list["Campanha"]] = relationship(back_populates="instituicao")
+
+
+class Campanha(Base):
+    __tablename__ = "campanhas"
+    id_campanha: Mapped[int] = mapped_column(Integer, primary_key=True)
+    nome: Mapped[str] = mapped_column(String(150))
+    regiao: Mapped[str] = mapped_column(String(100))
+    data_inicio: Mapped[date] = mapped_column(Date)
+    data_fim: Mapped[date] = mapped_column(Date)
+    status: Mapped[str] = mapped_column(String(50))
+    redes_sociais: Mapped[str | None] = mapped_column(String(150), nullable=True)
+    id_instituicao: Mapped[int] = mapped_column(ForeignKey("instituicao.id_instituicao"))
+
+    instituicao: Mapped["Instituicao"] = relationship(back_populates="campanhas")

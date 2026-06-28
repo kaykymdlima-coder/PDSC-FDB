@@ -51,3 +51,21 @@ def adicionar_campanha(dados: Dict[str, Any]) -> bool:
     except Exception as e:
         print(f"Erro ao adicionar: {e}")
         return False
+
+
+def editar_campanha(id_campanha: int, dados: Dict[str, Any]) -> bool:
+    """Atualiza uma campanha existente. Retorna True se OK."""
+    try:
+        with Session() as session:
+            campanha = session.query(Campanha).filter_by(id_campanha=id_campanha).first()
+            if not campanha:
+                return False
+            # Atualiza apenas os campos fornecidos
+            for key, value in dados.items():
+                if hasattr(campanha, key):
+                    setattr(campanha, key, value)
+            session.commit()
+            return True
+    except Exception as e:
+        print(f"Erro ao editar: {e}")
+        return False

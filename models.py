@@ -1,27 +1,23 @@
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import String, Date
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, String, Date, Integer
 
-class Base(DeclarativeBase):
-    pass
-
+Base = declarative_base()
 
 class UsuarioPessoa(Base):
-    __tablename__ = "usuariopessoa"
-
-    cpf: Mapped[str] = mapped_column(String(14), primary_key=True)
-    nome_completo: Mapped[str] = mapped_column(String(150))
-    data_nascimento: Mapped[Date] = mapped_column(Date)
-    email: Mapped[str] = mapped_column(String(100), unique=True)
-    senha: Mapped[str] = mapped_column(String(64))
-    sexo: Mapped[str] = mapped_column(String(20))
-    tipo_sanguineo: Mapped[str] = mapped_column(String(5))
-    logradouro: Mapped[str] = mapped_column(String(150))
-    cidade: Mapped[str] = mapped_column(String(100))
-    bairro: Mapped[str] = mapped_column(String(100))
-    cep: Mapped[str] = mapped_column(String(10))
-    telefone: Mapped[str] = mapped_column(String(20), nullable=True)
-
-
+    __tablename__ = 'usuariopessoa'
+    
+    nome_completo = Column(String(150), nullable=False)
+    data_nascimento = Column(Date, nullable=False)
+    cpf = Column(String(14), primary_key=True, nullable=False)
+    email = Column(String(100), nullable=False, unique=True)
+    senha = Column(String(64), nullable=False)
+    sexo = Column(String(20), nullable=False)
+    tipo_sanguineo = Column(String(5), nullable=False)
+    logradouro = Column(String(150), nullable=False)
+    cidade = Column(String(100), nullable=False)
+    bairro = Column(String(100), nullable=False)
+    cep = Column(String(10), nullable=False)
+    telefone = Column(String(20), nullable=True)
 
 class Instituicao(Base):
     __tablename__ = "instituicao"
@@ -36,8 +32,6 @@ class Instituicao(Base):
     logradouro: Mapped[str] = mapped_column(String(150))
     cidade: Mapped[str] = mapped_column(String(100))
     bairro: Mapped[str] = mapped_column(String(100))
-
-
     campanhas: Mapped[list["Campanha"]] = relationship(back_populates="instituicao")
 
 

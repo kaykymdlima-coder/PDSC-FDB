@@ -1,4 +1,4 @@
-from banco import Session
+from conexao import Session
 from models import Campanha, Instituicao
 from sqlalchemy.exc import IntegrityError
 from datetime import date
@@ -54,13 +54,11 @@ def adicionar_campanha(dados: Dict[str, Any]) -> bool:
 
 
 def editar_campanha(id_campanha: int, dados: Dict[str, Any]) -> bool:
-    """Atualiza uma campanha existente. Retorna True se OK."""
     try:
         with Session() as session:
             campanha = session.query(Campanha).filter_by(id_campanha=id_campanha).first()
             if not campanha:
                 return False
-            # Atualiza apenas os campos fornecidos
             for key, value in dados.items():
                 if hasattr(campanha, key):
                     setattr(campanha, key, value)
@@ -72,7 +70,6 @@ def editar_campanha(id_campanha: int, dados: Dict[str, Any]) -> bool:
 
 
 def excluir_campanha(id_campanha: int) -> bool:
-    """Remove uma campanha. Retorna True se OK."""
     try:
         with Session() as session:
             campanha = session.query(Campanha).filter_by(id_campanha=id_campanha).first()
@@ -87,7 +84,6 @@ def excluir_campanha(id_campanha: int) -> bool:
 
 
 def obter_campanha_por_id(id_campanha: int) -> Optional[Dict[str, Any]]:
-    """Retorna os dados de uma campanha específica ou None."""
     with Session() as session:
         c = session.query(Campanha).filter_by(id_campanha=id_campanha).first()
         if not c:

@@ -1,5 +1,6 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, String, Date, Integer
+from datetime import date
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column, relationship
+from sqlalchemy import Column, String, Date, Integer, ForeignKey
 
 Base = declarative_base()
 
@@ -32,6 +33,7 @@ class Instituicao(Base):
     logradouro: Mapped[str] = mapped_column(String(150))
     cidade: Mapped[str] = mapped_column(String(100))
     bairro: Mapped[str] = mapped_column(String(100))
+    
     campanhas: Mapped[list["Campanha"]] = relationship(back_populates="instituicao")
 
 

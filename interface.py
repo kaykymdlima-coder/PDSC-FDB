@@ -64,16 +64,20 @@ def btn_remover_click(event):
     titulo_lista.visible = False
 
 def btn_listar_click(event):
-    lista = listar_usuarios()
-    df = pd.DataFrame([{
-        'CPF': u.cpf, 'Nome': u.nome_completo, 'Email': u.email, 
-        'Cidade': u.cidade, 'Tipo Sanguíneo': u.tipo_sanguineo
-    } for u in lista])
-    
-    tabela_usuarios.value = df
-    # Mostra tabela
-    tabela_usuarios.visible = True
-    titulo_lista.visible = True
+    # função pra fechar apos clicar dnv
+    if tabela_usuarios.visible:
+        tabela_usuarios.visible = False
+        titulo_lista.visible = False
+    else:
+        lista = listar_usuarios()
+        df = pd.DataFrame([{
+            'CPF': u.cpf, 'Nome': u.nome_completo, 'Email': u.email, 
+            'Cidade': u.cidade, 'Tipo Sanguíneo': u.tipo_sanguineo
+        } for u in lista])
+        
+        tabela_usuarios.value = df
+        tabela_usuarios.visible = True
+        titulo_lista.visible = True
 
 # Vincular os eventos aos botões
 btn_inserir.on_click(btn_inserir_click)

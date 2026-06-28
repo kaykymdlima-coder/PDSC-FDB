@@ -69,3 +69,36 @@ def editar_campanha(id_campanha: int, dados: Dict[str, Any]) -> bool:
     except Exception as e:
         print(f"Erro ao editar: {e}")
         return False
+
+
+def excluir_campanha(id_campanha: int) -> bool:
+    """Remove uma campanha. Retorna True se OK."""
+    try:
+        with Session() as session:
+            campanha = session.query(Campanha).filter_by(id_campanha=id_campanha).first()
+            if not campanha:
+                return False
+            session.delete(campanha)
+            session.commit()
+            return True
+    except Exception as e:
+        print(f"Erro ao excluir: {e}")
+        return False
+
+
+def obter_campanha_por_id(id_campanha: int) -> Optional[Dict[str, Any]]:
+    """Retorna os dados de uma campanha específica ou None."""
+    with Session() as session:
+        c = session.query(Campanha).filter_by(id_campanha=id_campanha).first()
+        if not c:
+            return None
+        return {
+            "id_campanha": c.id_campanha,
+            "nome": c.nome,
+            "regiao": c.regiao,
+            "data_inicio": c.data_inicio,
+            "data_fim": c.data_fim,
+            "status": c.status,
+            "redes_sociais": c.redes_sociais,
+            "id_instituicao": c.id_instituicao,
+        }

@@ -204,19 +204,3 @@ ALTER TABLE SOLICITACAODEDOACAO_QUANTIDADE_BOLSA ADD FOREIGN KEY (id_solicitacao
 ALTER TABLE TROCADEPONTOS_ITENS ADD FOREIGN KEY (id_item, id_instituicao) REFERENCES TROCADEPONTOS (id_item, id_instituicao);
 
 ALTER TABLE TROCADEPONTOS_DIAS_DISPONIVEIS ADD FOREIGN KEY (id_item, id_instituicao) REFERENCES TROCADEPONTOS (id_item, id_instituicao);
---Coloquei as proximas ações juntas pra ficar tudo em 1 arquivo, mas foram execudados individualmente:.
-INSERT INTO USUARIOPESSOA (nome_completo, data_nascimento, cpf, email, senha, sexo, tipo_sanguineo, logradouro, cidade, bairro, cep, telefone)
-VALUES 
-('Kayky Martins', '01/12/2006', 'xxx.xxx.xxx-xx', 'Kaykyml@email.com', '40028922', 'Masculino', 'O+', 'Rua 12-100', 'Quixadá', 'Curicaca', '00000-000', '(85) 991987896'),
-('Sâmia Feitosa', '03/03/2007', 'yyy.yyy.yyy-yy', 'Medusaemail.com', 'abacate', 'Feminino', 'AB+', 'Rua Cafundo dos Judas', 'Quixadá', 'Planalto', '00000-001', '(88) 9999999');
-
-select nome_completo
-from usuariopessoa
-WHERE nome_completo like '%a%'
-
-INSERT INTO INSTITUICAO (id_instituicao, cnpj, nome, registro_cnes, telefone_institucional, email_institucional, senha, cep, logradouro, cidade, bairro)
-VALUES (0001, '12.345.678/0001-01', 'Hemoce', 'cnes0111', 88981841564, 'hemoce@gmail.gov.br', 'senha1235', '63900-000', 'Av.Joaquim Gomes da Silva', 'Quixada', 'Planalto Universitario');
-
-select *
-from instituicao
-WHERE cidade like 'Quixada'

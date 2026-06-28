@@ -12,7 +12,6 @@ def listar_instituicoes() -> List[Dict[int, str]]:
 
 
 def listar_campanhas() -> List[Dict[str, Any]]:
-    """Retorna lista de dicionários com todos os dados das campanhas."""
     with Session() as session:
         campanhas = session.query(Campanha).all()
         return [
@@ -28,3 +27,27 @@ def listar_campanhas() -> List[Dict[str, Any]]:
             }
             for c in campanhas
         ]
+
+
+def adicionar_campanha(dados: Dict[str, Any]) -> bool:
+    try:
+        with Session() as session:
+            nova = Campanha(
+                id_campanha=dados["id_campanha"],
+                nome=dados["nome"],
+                regiao=dados["regiao"],
+                data_inicio=dados["data_inicio"],
+                data_fim=dados["data_fim"],
+                status=dados["status"],
+                redes_sociais=dados.get("redes_sociais"),
+                id_instituicao=dados["id_instituicao"],
+            )
+            session.add(nova)
+            session.commit()
+            return True
+    except IntegrityError as e:
+        print(f"Erro de integridade: {e}")
+        return False
+    except Exception as e:
+        print(f"Erro ao adicionar: {e}")
+        return False

@@ -204,6 +204,8 @@ dashboard = pn.Row(
     pn.Column(form, width=450)
 )
 
+dashboard.servable(title='Instituições')
+
 # Para servir:
 if __name__ == "__main__":
     pn.serve(dashboard, address="0.0.0.0", port=8889, show=False)
